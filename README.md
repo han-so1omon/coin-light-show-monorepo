@@ -9,4 +9,4 @@ Sub-projects
 
 ## Setup
 
-Recommended Python 3.9.2, as this is the default on Raspberry Pi OS as of April 4, 2024
+Recommended Python 3.11.2, as this is the default on Raspberry Pi OS as of April 4, 2024
