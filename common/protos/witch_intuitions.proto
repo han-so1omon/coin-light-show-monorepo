@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.han_so1omon.coin_light_show.witch_intuitions";
+option java_outer_classname = "WitchIntuitionsProto";
+option objc_class_prefix = "WI";
+
+package witch_intuitions;
+
+import "coin_system.proto";
+
+service WitchIntuitions {
+
+    rpc TransferIntuitions(stream IntuitionRequest) returns (stream IntuitionResponse) {}
+
+}
+
+enum IntuitiveExpression {
+    BLANK = 0;
+    HAPPY = 1;
+    SAD = 2;
+    ANNOYED = 3;
+    CONFUSED = 4;
+}
+
+enum IntuitiveAction {
+    NONE = 0;
+    LIGHT = 1;
+    SOUND = 2;
+    VIBRATION = 3;
+}
+
+message IntuitionRequest {
+    string sender = 1;
+    int32 priority = 2;
+    coin_system.SystemState state = 3;
+    string message = 4;
+}
+
+message IntuitionResponse {
+    string sender = 1;
+    int32 priority = 2;
+    coin_system.SystemState state = 3;
+    IntuitiveExpression expression = 4;
+    IntuitiveAction action = 5;
+    int32 strength = 6;
+}

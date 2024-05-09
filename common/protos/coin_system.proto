@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.han_so1omon.coin_light_show.coin_system";
+option java_outer_classname = "CoinSystemProto";
+option objc_class_prefix = "CS";
+
+package coin_system;
+
+enum SystemState {
+    RUNNING = 0;
+    ERROR = 1;
+    STOPPED = 2;
+    WAITING = 3;
+}

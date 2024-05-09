@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.han_so1omon.coin_light_show.vessel_instructions";
+option java_outer_classname = "VesselInstructionsProto";
+option objc_class_prefix = "VI";
+
+package vessel_instructions;
+
+import "coin_system.proto";
+
+service VesselInstructions {
+
+    rpc TransferInstructions(stream VesselInstruction) returns (stream VesselResult) {}
+
+}
+
+enum VesselAction {
+    NONE = 0;
+    LIGHT = 1;
+    SOUND = 2;
+    VIBRATION = 3;
+}
+
+message VesselInstruction {
+    string sender = 1;
+    int32 priority = 2;
+    coin_system.SystemState state = 3;
+    VesselAction action = 4;
+    int32 strength = 5;
+    string input = 6;
+}
+
+message VesselResult {
+    string sender = 1;
+    coin_system.SystemState state = 2;
+    string message = 3;
+}

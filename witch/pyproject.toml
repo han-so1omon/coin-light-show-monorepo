@@ -1,9 +1,9 @@
 [project]
 name = 'coin-operated-light-witch'
-version = '0.0.1'
+version = '1.0'
 description = 'Coin-operated light show witch sub-project'
 readme='README.md'
-requires-python='>=3.4'
+requires-python='>=3.9'
 license={file = 'LICENSE'}
 keywords = ['art', 'entertainment', 'raspberry-pi']
 authors=[
@@ -19,44 +19,51 @@ classifiers = [
     'Topic :: Artistic Software',
     'License :: OSI Approved :: MIT License',
     'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.4',
-    'Programming Language :: Python :: 3.5',
-    'Programming Language :: Python :: 3.6',
-    'Programming Language :: Python :: 3.7',
-    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.11',
     'Programming Language :: Python :: 3 :: Only',
 ]
 
 dependencies = [
-]
-
-[project.optional-dependencies]
-dev = [
+  "grpcio",
+  "ultralytics",
+  "pillow",
+  "opencv-python",
 ]
 
 [project.scripts]
-coin-light-show-manager = 'witch:main'
+coin-light-show-witch = 'witch:main'
 
 [build-system]
 requires = ["hatchling>=1.22.2", "hatch-vcs>=0.3.0"]
 build-backend = "hatchling.build"
 
-[tool.hatch.build]
-dev-mode-dirs = ["."]
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "/.github",
+  "/docs",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/witch"]
 
 [tool.hatch.envs.default]
 dependencies = [
   "coverage[toml]",
   "pytest",
   "pytest-cov",
+  "grpcio-tools",
+  "ultralytics[explorer]"
 ]
 
 [tool.hatch.envs.default.scripts]
 test = 'pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=witch --cov=tests'
+protobuf = '''python -m grpc_tools.protoc -I../common/protos --python_out=./src/witch/rpc --grpc_python_out=./src/witch/rpc \
+  ../common/protos/witch_intuitions.proto ../common/protos/coin_system.proto \
+  && ./scripts/convert-grpc-imports.sh'''
 
 [[tool.hatch.envs.default.matrix]]
-python = ["3.4", "3.5", "3.6", "3.7", "3.8"]
-version = ["1"]
+python = ["3.11.2"]
+version = ["1.0"]
 
 # Type checking
 [tool.mypy]
@@ -74,8 +81,7 @@ warn_unused_ignores = true
 [tool.coverage.run]
 branch = true
 source_pkgs = ["witch", "tests"]
-omit = [
-]
+omit = []
 
 [tool.coverage.paths]
 witch = ["src/witch"]
